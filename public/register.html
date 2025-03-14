@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Register - Auth App</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 flex items-center justify-center h-screen">
+    <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+      <h2 class="text-2xl font-bold mb-6 text-center">Register</h2>
+      <form id="registerForm">
+        <div class="mb-4">
+          <label for="username" class="block text-gray-700">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            required
+            class="w-full px-3 py-2 border rounded"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="email" class="block text-gray-700">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full px-3 py-2 border rounded"
+          />
+        </div>
+        <div class="mb-4">
+          <label for="password" class="block text-gray-700">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            required
+            class="w-full px-3 py-2 border rounded"
+          />
+        </div>
+        <button
+          type="submit"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded w-full"
+        >
+          Register
+        </button>
+      </form>
+      <p class="mt-4 text-center">
+        Already have an account?
+        <a href="/login.html" class="text-blue-500">Login here</a>
+      </p>
+    </div>
+
+    <script>
+      const registerForm = document.getElementById("registerForm");
+      registerForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const username = document.getElementById("username").value;
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        const response = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, email, password }),
+        });
+
+        const data = await response.json();
+        alert(data.message);
+        if (response.status === 201) {
+          window.location.href = "/login.html";
+        }
+      });
+    </script>
+  </body>
+</html>
